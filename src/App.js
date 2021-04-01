@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './theme';
+import { GlobalStyle } from './global';
+import { Bar, Menu } from './components';
+import { useOnClickOutside } from './hooks';
+export default function App() {
 
-function App() {
+  const [open, setOpen] = useState(false);
+  const node = useRef();
+  useOnClickOutside(node, () => setOpen(false));
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div>
+      <ThemeProvider theme={theme} >
+        <>
+          <GlobalStyle></GlobalStyle>
+          <div ref={node}>
+            <Bar open={open} setOpen={setOpen} />
+            <Menu open={open} />
+          </div>
 
-export default App;
+          <h1>Your page goes here</h1>
+
+        </>
+      </ThemeProvider>
+    </div>
+  )
+}
